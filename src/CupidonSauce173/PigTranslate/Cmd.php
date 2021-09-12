@@ -26,7 +26,7 @@ class Cmd extends Command
     {
         if (!isset($args[0])) {
             $sender->sendMessage(
-                'Please select one of these messages: ' . TextFormat::BOLD . implode(', ', PigTranslate::languages)
+                'Please select one of these languages: ' . TextFormat::BOLD . implode(', ', PigTranslate::languages)
              . PHP_EOL . TextFormat::RESET .
             TextFormat::GREEN . 'Current language: ' .
                 PigTranslate::languages[PigTranslate::getInstance()->container[0]['players'][$sender->getName()]['lang']]
@@ -36,7 +36,7 @@ class Cmd extends Command
         $lang = array_search(strtolower($args[0]), PigTranslate::languages);
         if($lang === false){
             $sender->sendMessage(
-                'Please select one of these messages: ' . TextFormat::BOLD . implode(', ', PigTranslate::languages)
+                'Please select one of these languages: ' . TextFormat::BOLD . implode(', ', PigTranslate::languages)
                 . PHP_EOL . TextFormat::RESET .
                 TextFormat::GREEN . 'Current language: ' .
                 PigTranslate::languages[PigTranslate::getInstance()->container[0]['players'][$sender->getName()]['lang']]

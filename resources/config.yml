@@ -1,2 +1,14 @@
+# Default language that the players will have when first joining the server.
 defaultLanguage: "en"
+# IP address of your LibreTranslate instance.
 ip: "192.168.220.128/translate"
+
+# Tasks field
+
+# How often do you want the active languages to be cleaned (in seconds)
+clean-languages: 60
+# How often do you want the TranslateThread to translate the messages ? (in seconds)
+# Note: 0.5 is what I think is the best for "real-time" translation, or else the delay will be too high.
+translate-thread: 0.5
+# How often do you want the messages to be sent to the players ? (in milliseconds)
+broadcast-task: 10

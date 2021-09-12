@@ -35,7 +35,7 @@ class EventsListener implements Listener
         if (!file_exists(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml')){
             $pData = new Config(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml', Config::YAML,
                 [
-                    'language' => PigTranslate::getInstance()->config['defaultLanguage']
+                    'language' => PigTranslate::getInstance()->container[1]['defaultLanguage']
                 ]);
             $language = $pData->get('language');
             $pData->save();

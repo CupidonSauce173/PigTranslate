@@ -32,12 +32,12 @@ class TranslateThread extends Thread
     {
 
         $active = true;
-        $nextTime = microtime(true) + 0.5;
+        $nextTime = microtime(true) + $this->container[1]['translate-thread'];
 
         while ($active) {
             if (microtime(true) >= $nextTime) {
                 $this->prepareMessages();
-                $nextTime = microtime(true) + 0.5;
+                $nextTime = microtime(true) + $this->container[1]['translate-thread'];
             }
         }
     }

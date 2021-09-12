@@ -31,7 +31,6 @@ class PigTranslate extends PluginBase implements Listener
 
     public static PigTranslate $instance;
 
-    public array $config = [];
     public const languages = [
         'en' => 'english', # English
         'ar' => 'arabic', # Arabic
@@ -70,9 +69,7 @@ class PigTranslate extends PluginBase implements Listener
             'players' => [],
             'messageQueue' => [],
             'pluginMessages' => []]; // To implement later.
-
-        $this->translateThread = new TranslateThread($this->container);
-        $this->translateThread->start();
+        # Config & Data file preparation.
         $this->userDataFolder = $this->getDataFolder() . 'players/';
         if (!file_exists($this->getDataFolder() . 'config.yml')) {
             $this->saveResource('config.yml');
@@ -81,8 +78,11 @@ class PigTranslate extends PluginBase implements Listener
             @mkdir($this->userDataFolder, 0777, true);
         }
         $config = new Config($this->getDataFolder() . 'config.yml', Config::YAML);
-        $this->config = $config->getAll();
         $this->container[1] = $config->getAll();
+
+        # Starting the TranslateThread.
+        $this->translateThread = new TranslateThread($this->container);
+        $this->translateThread->start();
 
         $this->getServer()->getPluginManager()->registerEvents(new EventsListener(), $this);
         $this->getServer()->getCommandMap()->register('PigTranslate', new Cmd());
@@ -112,7 +112,7 @@ class PigTranslate extends PluginBase implements Listener
                     unset($this->container[0]['messagesToSend'][$value]);
                 }
             }
-        ), 10);
+        ), $this->container[1]['broadcast-task']);
 
         # This task will look if there are active languages that nobody uses and flush them, runs every 1 minute.
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
