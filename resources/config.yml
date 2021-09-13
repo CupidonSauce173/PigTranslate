@@ -1,7 +1,7 @@
 # Default language that the players will have when first joining the server.
 defaultLanguage: "en"
 # IP address of your LibreTranslate instance.
-ip: "192.168.220.128/translate"
+ip: "127.0.0.1/translate"
 
 # Tasks field
 
