@@ -30,6 +30,15 @@ There is a container variable which is a volatile object (so it can be modified 
 
 If a translation fails, there won't be any issues, the original message will be sent anyway (which mean it won't be translated).
 
+### Command
+
+To change a language, the player will have to /language <language>, if they have no arguments, it will send a list of available languages and also tell them their current setting.
+  
+<p align="center">
+<img src="https://github.com/CupidonSauce173/PigTranslate/blob/main/image_01.PNG" />
+</p>
+
+
 ### Available Languages
 
 | **Index** | **Name** |
