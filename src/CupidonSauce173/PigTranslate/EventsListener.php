@@ -1,6 +1,8 @@
 <?php
 
+
 namespace CupidonSauce173\PigTranslate;
+
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
@@ -12,22 +14,25 @@ use pocketmine\utils\Config;
 use function array_search;
 use function file_exists;
 
-class EventsListener implements Listener {
+class EventsListener implements Listener
+{
     /**
      * @param PlayerChatEvent $event
      */
-    function onChat(PlayerChatEvent $event) {
+    function onChat(PlayerChatEvent $event)
+    {
         # Foreach all active languages in the server.
         foreach (PigTranslate::getInstance()->container[0]['activeLanguages'] as $language) {
             PigTranslate::Translate($event->getMessage(), $language, PigTranslate::MESSAGE_BROADCAST, null, $event->getPlayer());
         }
-        $event->cancel();
+        $event->setCancelled(true);
     }
 
     /**
      * @param PlayerJoinEvent $event
      */
-    function onJoin(PlayerJoinEvent $event) {
+    function onJoin(PlayerJoinEvent $event)
+    {
         $name = $event->getPlayer()->getName();
         if (!file_exists(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml')) {
             $pData = new Config(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml', Config::YAML,
@@ -50,7 +55,8 @@ class EventsListener implements Listener {
     /**
      * @param PlayerQuitEvent $event
      */
-    function onLeave(PlayerQuitEvent $event) {
+    function onLeave(PlayerQuitEvent $event)
+    {
         $name = $event->getPlayer()->getName();
         $pData = new Config(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml', Config::YAML);
         $pData->set('language', PigTranslate::getInstance()->container[0]['players'][$name]['lang']);

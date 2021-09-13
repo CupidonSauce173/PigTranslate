@@ -1,20 +1,25 @@
 <?php
 
+
 namespace CupidonSauce173\PigTranslate;
+
 
 use CupidonSauce173\PigTranslate\Utils\TranslateThread;
 use pocketmine\event\Listener;
-use pocketmine\player\Player;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
+
 use pocketmine\utils\Config;
 use Thread;
 use Volatile;
+
 use function file_exists;
 use function array_search;
 
 
-class PigTranslate extends PluginBase implements Listener {
+class PigTranslate extends PluginBase implements Listener
+{
     const ALL_PLAYERS = 0;
     const SINGLE_PLAYER = 1;
     const MESSAGE_BROADCAST = 2;
@@ -54,7 +59,8 @@ class PigTranslate extends PluginBase implements Listener {
 
     # Server Events
 
-    function onEnable() : void  {
+    function onEnable()
+    {
         self::$instance = $this;
         # Preparing multi-thread system,
         $this->container = new Volatile();
@@ -90,7 +96,7 @@ class PigTranslate extends PluginBase implements Listener {
             function (): void {
                 foreach ($this->container[0]['messagesToSend'] as $value => $data) {
                     /** @var Player $player */
-                    $player = $this->getServer()->getPlayerByPrefix($data['player']);
+                    $player = $this->getServer()->getPlayer($data['player']);
                     switch ($data['type']) {
                         case self::MESSAGE_BROADCAST:
                             if ($data['sender'] === $player->getName()) {
@@ -136,9 +142,18 @@ class PigTranslate extends PluginBase implements Listener {
         ), 20 * 60);
     }
 
-    function onDisable() : void {
+    function onDisable()
+    {
         # This will stop the TranslateThread
         $this->container[0]['runThread'] = false;
+    }
+
+    /**
+     * @return PigTranslate|void
+     */
+    function onLoad()
+    {
+        self::$instance = $this;
     }
 
     # Public API
@@ -158,26 +173,37 @@ class PigTranslate extends PluginBase implements Listener {
      * @param Player|null $playerTarget
      * @param Player|null $sender
      */
-    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null) {
-        self::getInstance()->container[0]['messageQueue'][] = match ($type) {
-            self::MESSAGE_BROADCAST => [
-                'message' => $message,
-                'type' => self::MESSAGE_BROADCAST,
-                'target' => $targetLanguage,
-                'sender' => $sender->getName(),
-                'chat_format' => ' > ' # Add PureChat support later.
-            ],
-            self::ALL_PLAYERS => [
-                'message' => $message,
-                'type' => self::ALL_PLAYERS,
-                'target' => $targetLanguage
-            ],
-            self::SINGLE_PLAYER => [
-                'message' => $message,
-                'type' => self::SINGLE_PLAYER,
-                'target' => $targetLanguage,
-                'playerTarget' => $playerTarget
-            ],
-        };
+    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null)
+    {
+        switch ($type) {
+            case self::MESSAGE_BROADCAST:
+                self::getInstance()->container[0]['messageQueue'][] =
+                    [
+                        'message' => $message,
+                        'type' => self::MESSAGE_BROADCAST,
+                        'target' => $targetLanguage,
+                        'sender' => $sender->getName(),
+                        'chat_format' => ' > ' # Add PureChat support later.
+                    ];
+                break;
+            case self::ALL_PLAYERS:
+                self::getInstance()->container[0]['messageQueue'][] =
+                    [
+                        'message' => $message,
+                        'type' => self::ALL_PLAYERS,
+                        'target' => $targetLanguage
+                    ];
+                break;
+
+            case self::SINGLE_PLAYER:
+                self::getInstance()->container[0]['messageQueue'][] =
+                    [
+                        'message' => $message,
+                        'type' => self::SINGLE_PLAYER,
+                        'target' => $targetLanguage,
+                        'playerTarget' => $playerTarget
+                    ];
+                break;
+        }
     }
 }

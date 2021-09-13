@@ -1,11 +1,13 @@
 <?php
 
+
 namespace CupidonSauce173\PigTranslate\Utils;
 
 use CupidonSauce173\PigTranslate\PigTranslate;
 
 use Thread;
 use Volatile;
+
 use function microtime;
 use function json_encode;
 use function json_decode;
@@ -14,19 +16,23 @@ use function curl_setopt;
 use function curl_exec;
 use function curl_close;
 
-class TranslateThread extends Thread {
+class TranslateThread extends Thread
+{
     private Volatile $container;
 
     /**
      * TranslateThread constructor.
      * @param Volatile $container
      */
-    public function __construct(Volatile $container) {
+    public function __construct(Volatile $container)
+    {
         $this->container = $container;
         $this->container[0]['runThread'] = true;
     }
 
-    public function run() {
+    public function run()
+    {
+
         $nextTime = microtime(true) + $this->container[1]['translate-thread'];
 
         while ($this->container[0]['runThread']) {
@@ -37,7 +43,8 @@ class TranslateThread extends Thread {
         }
     }
 
-    function prepareMessages() {
+    function prepareMessages()
+    {
         foreach ($this->container[0]['messageQueue'] as $value => $request) {
 
             $message = $request['message']; # Message to translate

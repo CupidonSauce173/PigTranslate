@@ -3,17 +3,21 @@
 
 namespace CupidonSauce173\PigTranslate;
 
+
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\TextFormat;
 
 use function array_search;
 use function implode;
 
-class Cmd extends Command {
+class Cmd extends Command implements PluginIdentifiableCommand
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(
             'language',
             'Set your language',
@@ -22,7 +26,8 @@ class Cmd extends Command {
         $this->setPermission('PigTranslate.permission.language');
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args) {
+    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    {
         if (!isset($args[0])) {
             $sender->sendMessage(
                 'Please select one of these languages: ' . TextFormat::BOLD . implode(', ', PigTranslate::languages)
@@ -50,7 +55,8 @@ class Cmd extends Command {
         return;
     }
 
-    public function getPlugin(): Plugin {
+    public function getPlugin(): Plugin
+    {
         return PigTranslate::getInstance();
     }
 }
