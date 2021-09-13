@@ -25,7 +25,7 @@ class EventsListener implements Listener
         foreach (PigTranslate::getInstance()->container[0]['activeLanguages'] as $language) {
             PigTranslate::Translate($event->getMessage(), $language, PigTranslate::MESSAGE_BROADCAST, null, $event->getPlayer());
         }
-        $event->setCancelled(true);
+        $event->cancel();
     }
 
     /**
