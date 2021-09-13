@@ -1,6 +1,6 @@
 name: PigTranslate
 main: CupidonSauce173\PigTranslate\PigTranslate
 version: 1.0.0
-api: 3.21.0
+api: 3.22.5
 author: CupidonSauce173
-description: MultiThreaded real-time translation system using LibreTranslate project by agrosopentech
+description: MultiThreaded real-time translation system using LibreTranslate project

@@ -70,6 +70,7 @@ class PigTranslate extends PluginBase implements Listener
             'players' => [],
             'messageQueue' => [],
             'pluginMessages' => []]; // To implement later.
+
         # Config & Data file preparation.
         $this->userDataFolder = $this->getDataFolder() . 'players/';
         if (!file_exists($this->getDataFolder() . 'config.yml')) {
@@ -87,6 +88,8 @@ class PigTranslate extends PluginBase implements Listener
 
         $this->getServer()->getPluginManager()->registerEvents(new EventsListener(), $this);
         $this->getServer()->getCommandMap()->register('PigTranslate', new Cmd());
+
+        # Tasks field
 
         # This task will look if a message has to be sent to a player, if yes, it will send it and unset the value from the array.
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
