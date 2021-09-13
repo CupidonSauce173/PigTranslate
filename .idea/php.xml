@@ -5,5 +5,5 @@
       <path value="D:/repositories/libraries/PocketMine-MP-3.21.0" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
 </project>
