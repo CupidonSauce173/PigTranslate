@@ -158,7 +158,7 @@ class PigTranslate extends PluginBase implements Listener
     # Public API
 
     /**
-     * @return static
+     * @return PigTranslate
      */
     static function getInstance(): self
     {
