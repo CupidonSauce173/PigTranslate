@@ -25,7 +25,7 @@ class Cmd extends Command
         $this->setPermission('PigTranslate.permission.language');
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): void
     {
         if (!isset($args[0])) {
             $sender->sendMessage(
@@ -54,6 +54,9 @@ class Cmd extends Command
         return;
     }
 
+    /**
+     * @return Plugin
+     */
     public function getPlugin(): Plugin
     {
         return PigTranslate::getInstance();

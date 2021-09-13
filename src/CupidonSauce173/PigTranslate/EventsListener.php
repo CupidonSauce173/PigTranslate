@@ -19,7 +19,7 @@ class EventsListener implements Listener
     /**
      * @param PlayerChatEvent $event
      */
-    function onChat(PlayerChatEvent $event)
+    function onChat(PlayerChatEvent $event): void
     {
         # Foreach all active languages in the server.
         foreach (PigTranslate::getInstance()->container[0]['activeLanguages'] as $language) {
@@ -31,7 +31,7 @@ class EventsListener implements Listener
     /**
      * @param PlayerJoinEvent $event
      */
-    function onJoin(PlayerJoinEvent $event)
+    function onJoin(PlayerJoinEvent $event): void
     {
         $name = $event->getPlayer()->getName();
         if (!file_exists(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml')) {
@@ -55,7 +55,7 @@ class EventsListener implements Listener
     /**
      * @param PlayerQuitEvent $event
      */
-    function onLeave(PlayerQuitEvent $event)
+    function onLeave(PlayerQuitEvent $event): void
     {
         $name = $event->getPlayer()->getName();
         $pData = new Config(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml', Config::YAML);

@@ -172,7 +172,7 @@ class PigTranslate extends PluginBase implements Listener
      * @param Player|null $playerTarget
      * @param Player|null $sender
      */
-    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null)
+    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null): void
     {
         switch ($type) {
             case self::MESSAGE_BROADCAST:

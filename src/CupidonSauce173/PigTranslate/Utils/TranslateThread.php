@@ -30,7 +30,7 @@ class TranslateThread extends Thread
         $this->container[0]['runThread'] = true;
     }
 
-    public function run()
+    public function run(): void
     {
 
         $nextTime = microtime(true) + $this->container[1]['translate-thread'];
@@ -43,7 +43,7 @@ class TranslateThread extends Thread
         }
     }
 
-    function prepareMessages()
+    function prepareMessages(): void
     {
         foreach ($this->container[0]['messageQueue'] as $value => $request) {
 
