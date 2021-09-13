@@ -61,7 +61,6 @@ class PigTranslate extends PluginBase implements Listener
 
     function onEnable()
     {
-        self::$instance = $this;
         # Preparing multi-thread system,
         $this->container = new Volatile();
         $this->container[] = [
