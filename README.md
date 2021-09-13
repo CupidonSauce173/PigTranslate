@@ -28,7 +28,7 @@ There is a container variable which is a volatile object (so it can be modified 
 
 ### Translation Fail Handling
 
-If a translation fails, there won't be any issue, the original message will be sent anyway (which meansit won't be translated).
+If a translation fails, there won't be any issue, the original message will be sent anyway (which means it won't be translated).
 
 ### Command
 
