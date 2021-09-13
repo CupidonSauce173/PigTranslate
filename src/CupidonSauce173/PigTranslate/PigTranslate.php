@@ -6,7 +6,7 @@ namespace CupidonSauce173\PigTranslate;
 
 use CupidonSauce173\PigTranslate\Utils\TranslateThread;
 use pocketmine\event\Listener;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 
@@ -59,9 +59,8 @@ class PigTranslate extends PluginBase implements Listener
 
     # Server Events
 
-    function onEnable()
+    function onEnable() : void
     {
-        self::$instance = $this;
         # Preparing multi-thread system,
         $this->container = new Volatile();
         $this->container[] = [
@@ -96,7 +95,7 @@ class PigTranslate extends PluginBase implements Listener
             function (): void {
                 foreach ($this->container[0]['messagesToSend'] as $value => $data) {
                     /** @var Player $player */
-                    $player = $this->getServer()->getPlayer($data['player']);
+                    $player = $this->getServer()->getPlayerByPrefix($data['player']);
                     switch ($data['type']) {
                         case self::MESSAGE_BROADCAST:
                             if ($data['sender'] === $player->getName()) {
@@ -142,7 +141,7 @@ class PigTranslate extends PluginBase implements Listener
         ), 20 * 60);
     }
 
-    function onDisable()
+    function onDisable() : void
     {
         # This will stop the TranslateThread
         $this->container[0]['runThread'] = false;
@@ -151,7 +150,7 @@ class PigTranslate extends PluginBase implements Listener
     /**
      * @return PigTranslate|void
      */
-    function onLoad()
+    function onLoad() : void
     {
         self::$instance = $this;
     }
