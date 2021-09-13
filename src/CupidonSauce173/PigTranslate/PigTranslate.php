@@ -30,7 +30,7 @@ class PigTranslate extends PluginBase implements Listener
     public Thread $translateThread;
     public Volatile $container;
 
-    public static PigTranslate $instance;
+    static PigTranslate $instance;
 
     public const languages = [
         'en' => 'english', # English

@@ -15,7 +15,7 @@ use function implode;
 class Cmd extends Command
 {
 
-    public function __construct()
+    function __construct()
     {
         parent::__construct(
             'language',
@@ -25,7 +25,7 @@ class Cmd extends Command
         $this->setPermission('PigTranslate.permission.language');
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args): void
+    function execute(CommandSender $sender, string $commandLabel, array $args): void
     {
         if (!isset($args[0])) {
             $sender->sendMessage(
@@ -51,13 +51,12 @@ class Cmd extends Command
         }
         PigTranslate::getInstance()->container[0]['players'][$sender->getName()]['lang'] = $lang;
         $sender->sendMessage('You successfully changed your language to: ' . $args[0]);
-        return;
     }
 
     /**
      * @return Plugin
      */
-    public function getPlugin(): Plugin
+    function getPlugin(): Plugin
     {
         return PigTranslate::getInstance();
     }

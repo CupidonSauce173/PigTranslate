@@ -24,13 +24,13 @@ class TranslateThread extends Thread
      * TranslateThread constructor.
      * @param Volatile $container
      */
-    public function __construct(Volatile $container)
+    function __construct(Volatile $container)
     {
         $this->container = $container;
         $this->container[0]['runThread'] = true;
     }
 
-    public function run(): void
+    function run(): void
     {
 
         $nextTime = microtime(true) + $this->container[1]['translate-thread'];
