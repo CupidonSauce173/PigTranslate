@@ -26,7 +26,12 @@ class Cmd extends Command implements PluginIdentifiableCommand
         $this->setPermission('PigTranslate.permission.language');
     }
 
-    function execute(CommandSender $sender, string $commandLabel, array $args)
+    /**
+     * @param CommandSender $sender
+     * @param string $commandLabel
+     * @param array $args
+     */
+    function execute(CommandSender $sender, string $commandLabel, array $args): void
     {
         if (!isset($args[0])) {
             $sender->sendMessage(

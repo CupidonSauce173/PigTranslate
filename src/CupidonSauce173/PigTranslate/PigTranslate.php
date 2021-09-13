@@ -59,7 +59,7 @@ class PigTranslate extends PluginBase implements Listener
 
     # Server Events
 
-    function onEnable()
+    function onEnable(): void
     {
         # Preparing multi-thread system,
         $this->container = new Volatile();
@@ -141,13 +141,13 @@ class PigTranslate extends PluginBase implements Listener
         ), 20 * 60);
     }
 
-    function onDisable()
+    function onDisable(): void
     {
         # This will stop the TranslateThread
         $this->container[0]['runThread'] = false;
     }
 
-    function onLoad()
+    function onLoad(): void
     {
         self::$instance = $this;
     }
@@ -169,7 +169,7 @@ class PigTranslate extends PluginBase implements Listener
      * @param Player|null $playerTarget
      * @param Player|null $sender
      */
-    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null)
+    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null): void
     {
         switch ($type) {
             case self::MESSAGE_BROADCAST:
