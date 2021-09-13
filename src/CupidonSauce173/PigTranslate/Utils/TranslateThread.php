@@ -27,15 +27,15 @@ class TranslateThread extends Thread
     public function __construct(Volatile $container)
     {
         $this->container = $container;
+        $this->container[0]['runThread'] = true;
     }
 
     public function run()
     {
 
-        $active = true;
         $nextTime = microtime(true) + $this->container[1]['translate-thread'];
 
-        while ($active) {
+        while ($this->container[0]['runThread']) {
             if (microtime(true) >= $nextTime) {
                 $this->prepareMessages();
                 $nextTime = microtime(true) + $this->container[1]['translate-thread'];

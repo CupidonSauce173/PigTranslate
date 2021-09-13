@@ -144,7 +144,8 @@ class PigTranslate extends PluginBase implements Listener
 
     function onDisable()
     {
-        $this->translateThread->kill();
+        # This will stop the TranslateThread
+        $this->container[0]['runThread'] = false;
     }
 
     /**
