@@ -8,6 +8,7 @@ use CupidonSauce173\PigTranslate\PigTranslate;
 use Thread;
 use Volatile;
 
+use function microtime;
 use function json_encode;
 use function json_decode;
 use function curl_init;

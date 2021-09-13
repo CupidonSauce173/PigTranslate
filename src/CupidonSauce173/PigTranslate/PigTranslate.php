@@ -15,6 +15,7 @@ use Thread;
 use Volatile;
 
 use function file_exists;
+use function array_search;
 
 
 class PigTranslate extends PluginBase implements Listener
@@ -74,7 +75,7 @@ class PigTranslate extends PluginBase implements Listener
         if (!file_exists($this->getDataFolder() . 'config.yml')) {
             $this->saveResource('config.yml');
         }
-        if (!file_exists($this->userDataFolder)){
+        if (!file_exists($this->userDataFolder)) {
             @mkdir($this->userDataFolder, 0777, true);
         }
         $config = new Config($this->getDataFolder() . 'config.yml', Config::YAML);
@@ -119,18 +120,18 @@ class PigTranslate extends PluginBase implements Listener
             function (): void {
                 # Construct list of used languages (from the players array).
                 $langList = [];
-                foreach($this->container[0]['players'] as $player){
-                    if(!isset($langList[$player['lang']])){
+                foreach ($this->container[0]['players'] as $player) {
+                    if (!isset($langList[$player['lang']])) {
                         $langList[] = $player['lang'];
                     }
                 }
                 # Remove all languages from langList from the activeLanguages list.
                 $activeLang = (array)$this->container[0]['activeLanguages'];
-                foreach($langList as $lang){
+                foreach ($langList as $lang) {
                     unset($activeLang[array_search($lang, $activeLang)]);
                 }
                 # Remove all unused languages.
-                foreach($activeLang as $lang){
+                foreach ($activeLang as $lang) {
                     $index = array_search($lang, (array)$this->container[0]['activeLanguages']);
                     unset($this->container[0]['activeLanguages'][$index]);
                 }

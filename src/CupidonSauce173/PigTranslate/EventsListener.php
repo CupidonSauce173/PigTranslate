@@ -10,7 +10,9 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
 use pocketmine\utils\Config;
+
 use function array_search;
+use function file_exists;
 
 class EventsListener implements Listener
 {
@@ -32,14 +34,14 @@ class EventsListener implements Listener
     function onJoin(PlayerJoinEvent $event)
     {
         $name = $event->getPlayer()->getName();
-        if (!file_exists(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml')){
+        if (!file_exists(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml')) {
             $pData = new Config(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml', Config::YAML,
                 [
                     'language' => PigTranslate::getInstance()->container[1]['defaultLanguage']
                 ]);
             $language = $pData->get('language');
             $pData->save();
-        }else{
+        } else {
             $pData = new Config(PigTranslate::getInstance()->userDataFolder . strtolower($name) . '.yml', Config::YAML);
             $language = $pData->get('language');
         }
