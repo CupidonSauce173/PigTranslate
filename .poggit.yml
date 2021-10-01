@@ -5,5 +5,5 @@ branches:
 projects:
   PigTranslate:
     path: ""
-    icon: image_01.PNG
+    icon: PigTranslateIcon.jpg
 ...
