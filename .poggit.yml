@@ -4,5 +4,6 @@ branches:
 - main
 projects:
   PigTranslate:
-    path: "image_01.PNG"
+    path: ""
+    icon: image_01.PNG
 ...
