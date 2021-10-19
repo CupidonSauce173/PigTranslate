@@ -8,9 +8,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-
 use pocketmine\utils\Config;
-
 use function array_search;
 use function file_exists;
 

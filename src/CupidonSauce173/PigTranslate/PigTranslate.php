@@ -9,13 +9,11 @@ use pocketmine\event\Listener;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
-
 use pocketmine\utils\Config;
 use Thread;
 use Volatile;
-
-use function file_exists;
 use function array_search;
+use function file_exists;
 
 
 class PigTranslate extends PluginBase implements Listener
@@ -23,15 +21,6 @@ class PigTranslate extends PluginBase implements Listener
     const ALL_PLAYERS = 0;
     const SINGLE_PLAYER = 1;
     const MESSAGE_BROADCAST = 2;
-
-    public string $userDataFolder;
-
-    # Threaded items
-    public Thread $translateThread;
-    public Volatile $container;
-
-    public static PigTranslate $instance;
-
     public const languages = [
         'en' => 'english', # English
         'ar' => 'arabic', # Arabic
@@ -57,7 +46,62 @@ class PigTranslate extends PluginBase implements Listener
         'vi' => 'vietnamese' # Vietnamese
     ];
 
+    # Threaded items
+    public static PigTranslate $instance;
+    public string $userDataFolder;
+    public Thread $translateThread;
+    public Volatile $container;
+
     # Server Events
+
+    /**
+     * @param string $message
+     * @param string $targetLanguage
+     * @param int $type
+     * @param Player|null $playerTarget
+     * @param Player|null $sender
+     */
+    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null): void
+    {
+        switch ($type) {
+            case self::MESSAGE_BROADCAST:
+                self::getInstance()->container[0]['messageQueue'][] =
+                    [
+                        'message' => $message,
+                        'type' => self::MESSAGE_BROADCAST,
+                        'target' => $targetLanguage,
+                        'sender' => $sender->getName(),
+                        'chat_format' => ' > ' # Add PureChat support later.
+                    ];
+                break;
+            case self::ALL_PLAYERS:
+                self::getInstance()->container[0]['messageQueue'][] =
+                    [
+                        'message' => $message,
+                        'type' => self::ALL_PLAYERS,
+                        'target' => $targetLanguage
+                    ];
+                break;
+
+            case self::SINGLE_PLAYER:
+                self::getInstance()->container[0]['messageQueue'][] =
+                    [
+                        'message' => $message,
+                        'type' => self::SINGLE_PLAYER,
+                        'target' => $targetLanguage,
+                        'playerTarget' => $playerTarget
+                    ];
+                break;
+        }
+    }
+
+    /**
+     * @return PigTranslate
+     */
+    static function getInstance(): self
+    {
+        return self::$instance;
+    }
 
     function onEnable(): void
     {
@@ -86,7 +130,7 @@ class PigTranslate extends PluginBase implements Listener
         $this->translateThread->start();
 
         $this->getServer()->getPluginManager()->registerEvents(new EventsListener(), $this);
-        $this->getServer()->getCommandMap()->register('PigTranslate', new Cmd());
+        $this->getServer()->getCommandMap()->register('PigTranslate', new Commands());
 
         # Tasks field
 
@@ -141,6 +185,8 @@ class PigTranslate extends PluginBase implements Listener
         ), 20 * 60);
     }
 
+    # Public API
+
     function onDisable(): void
     {
         # This will stop the TranslateThread
@@ -150,56 +196,5 @@ class PigTranslate extends PluginBase implements Listener
     function onLoad(): void
     {
         self::$instance = $this;
-    }
-
-    # Public API
-
-    /**
-     * @return PigTranslate
-     */
-    static function getInstance(): self
-    {
-        return self::$instance;
-    }
-
-    /**
-     * @param string $message
-     * @param string $targetLanguage
-     * @param int $type
-     * @param Player|null $playerTarget
-     * @param Player|null $sender
-     */
-    static function Translate(string $message, string $targetLanguage, int $type, Player $playerTarget = null, Player $sender = null): void
-    {
-        switch ($type) {
-            case self::MESSAGE_BROADCAST:
-                self::getInstance()->container[0]['messageQueue'][] =
-                    [
-                        'message' => $message,
-                        'type' => self::MESSAGE_BROADCAST,
-                        'target' => $targetLanguage,
-                        'sender' => $sender->getName(),
-                        'chat_format' => ' > ' # Add PureChat support later.
-                    ];
-                break;
-            case self::ALL_PLAYERS:
-                self::getInstance()->container[0]['messageQueue'][] =
-                    [
-                        'message' => $message,
-                        'type' => self::ALL_PLAYERS,
-                        'target' => $targetLanguage
-                    ];
-                break;
-
-            case self::SINGLE_PLAYER:
-                self::getInstance()->container[0]['messageQueue'][] =
-                    [
-                        'message' => $message,
-                        'type' => self::SINGLE_PLAYER,
-                        'target' => $targetLanguage,
-                        'playerTarget' => $playerTarget
-                    ];
-                break;
-        }
     }
 }

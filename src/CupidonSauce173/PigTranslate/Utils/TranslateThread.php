@@ -4,17 +4,15 @@
 namespace CupidonSauce173\PigTranslate\Utils;
 
 use CupidonSauce173\PigTranslate\PigTranslate;
-
 use Thread;
 use Volatile;
-
-use function microtime;
-use function json_encode;
-use function json_decode;
+use function curl_close;
+use function curl_exec;
 use function curl_init;
 use function curl_setopt;
-use function curl_exec;
-use function curl_close;
+use function json_decode;
+use function json_encode;
+use function microtime;
 
 class TranslateThread extends Thread
 {

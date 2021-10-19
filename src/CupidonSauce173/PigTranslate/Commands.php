@@ -9,11 +9,10 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\TextFormat;
-
 use function array_search;
 use function implode;
 
-class Cmd extends Command implements PluginIdentifiableCommand
+class Commands extends Command implements PluginIdentifiableCommand
 {
 
     function __construct()
